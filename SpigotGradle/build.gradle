@@ -1,0 +1,33 @@
+plugins {
+    id 'java-library'
+    id 'java-gradle-plugin'
+}
+
+gradlePlugin {
+    plugins {
+        SpigotGradle {
+            id = 'spigot-gradle'
+            implementationClass = 'spigot.gradle.SpigotPlugin'
+        }
+    }
+}
+
+group 'SpaceGameDev'
+version '1.0'
+
+//noinspection GroovyUnusedAssignment
+targetCompatibility = 1.8
+//noinspection GroovyUnusedAssignment
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jetbrains:annotations:16.0.3'
+    implementation localGroovy()
+
+    testImplementation 'junit:junit:4.12'
+}
