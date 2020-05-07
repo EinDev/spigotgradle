@@ -18,7 +18,7 @@ public class SpigotBuildToolBuild extends DefaultTask {
     public RegularFileProperty buildToolJar = getProject().getObjects().fileProperty().convention(SpigotExtension.get(getProject()).buildTool.buildToolJar);
 
     @OutputDirectory
-    public DirectoryProperty buildToolBuild = getProject().getObjects().directoryProperty().convention(SpigotExtension.get(getProject()).buildTool.buildToolBuild);
+    public DirectoryProperty buildToolBuild = getProject().getObjects().directoryProperty().convention(SpigotExtension.get(getProject()).buildTool.build);
 
     public SpigotBuildToolBuild() {
         setDescription("Uses the spigot BuildTool to build a server jar");
