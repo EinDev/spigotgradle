@@ -12,6 +12,9 @@
 .idea/**/compiler.xml
 .idea/**/hotswap_agent.xml
 .idea/**/jarRepositories.xml
+.idea/**/misc.xml
+.idea/**/modules.xml
+.idea/**/modules
 
 # Generated files
 .idea/**/contentModel.xml
