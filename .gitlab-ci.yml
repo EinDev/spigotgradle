@@ -1,0 +1,39 @@
+stages:
+  - build
+  - test
+
+image: openjdk:8-alpine
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+after_script:
+  - echo "End CI"
+
+cache:
+  paths:
+    - .gradle/wrapper/*/*/*/*.zip
+    - .gradle/caches/*/generated-gradle-jars/*.jar
+    - .gradle/caches/jars*
+    - .gradle/caches/modules*
+
+
+
+build:
+  stage: build
+  script:
+    - cd SpigotGradle
+    - ../gradlew assemble
+  artifacts:
+    paths:
+      - "SpigotGradle/build/libs/*"
+    expire_in: 31 days
+
+test-plugin:
+  stage: test
+  script:
+    - cd SpigotGradle
+    - ../gradlew test
+  artifacts:
+    when: always
+    reports:
+      junit: "build/*/test-results/test/TEST-*.xml"
+    expire_in: 15 days
