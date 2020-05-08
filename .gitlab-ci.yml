@@ -35,3 +35,9 @@ plugin-test:
     reports:
       junit: "build/test-results/test/TEST-*.xml"
     expire_in: 15 days
+
+example-test:
+  stage: test
+  script:
+    - cd example
+    - ./gradlew spigotServerPrepare
