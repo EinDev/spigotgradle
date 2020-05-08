@@ -1,0 +1,4 @@
+name: ExamplePlugin
+version: '1.0'
+main: example.plugin.ExamplePlugin
+api-version: '1.15'
