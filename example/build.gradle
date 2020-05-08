@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
-    id 'spigot-gradle'
+    id 'spigot-plugin'
+    id 'spigot-server'
 }
 
 group 'org.example'

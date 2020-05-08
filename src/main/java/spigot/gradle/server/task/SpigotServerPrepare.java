@@ -1,4 +1,4 @@
-package spigot.gradle.task;
+package spigot.gradle.server.task;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.Copy;

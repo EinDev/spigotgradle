@@ -1,4 +1,4 @@
-package spigot.gradle;
+package spigot.gradle.server;
 
 import org.gradle.api.*;
 import org.gradle.api.artifacts.Configuration;
@@ -6,21 +6,25 @@ import org.gradle.api.tasks.Copy;
 import org.gradle.api.tasks.Exec;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskProvider;
-import spigot.gradle.task.SpigotBuildToolBuild;
-import spigot.gradle.task.SpigotBuildToolDownload;
+import spigot.gradle.SpigotBasePlugin;
+import spigot.gradle.SpigotExtension;
+import spigot.gradle.server.task.SpigotBuildToolBuild;
+import spigot.gradle.server.task.SpigotBuildToolDownload;
 
 import java.io.IOException;
 import java.nio.file.Files;
 
 @SuppressWarnings("CodeBlock2Expr")
 @NonNullApi
-public class SpigotPlugin implements Plugin<Project> {
+public class SpigotServerPlugin implements Plugin<Project> {
 
     public static final String CONFIGURATION_SPIGOT_PLUGIN = "spigotPlugin";
 
     @Override
     public void apply(Project project) {
-        SpigotExtension spigotExtension = project.getExtensions().create("spigot", SpigotExtension.class, project);
+        project.getPlugins().apply(SpigotBasePlugin.class);
+
+        SpigotExtension spigotExtension = SpigotExtension.get(project);
         TaskContainer tasks = project.getTasks();
 
         //spigot buildTool
@@ -80,7 +84,7 @@ public class SpigotPlugin implements Plugin<Project> {
 
         project.getGradle().projectsEvaluated(gradle -> {
             if (tasks.findByPath("run") == null) {
-                tasks.register("run",  t -> t.dependsOn("spigotServerRun"));
+                tasks.register("run", t -> t.dependsOn("spigotServerRun"));
             }
         });
     }
