@@ -2,7 +2,7 @@ stages:
   - build
   - test
 
-image: openjdk:8-alpine
+image: $CI_REGISTRY_IMAGE/example-build:$CI_COMMIT_REF_SLUG
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 after_script:
@@ -17,23 +17,53 @@ cache:
 
 
 
-build:
+build-plugin:
   stage: build
+  image: openjdk:8-alpine
   script:
-    - cd SpigotGradle
-    - ../gradlew assemble
+    - ./gradlew assemble
   artifacts:
     paths:
-      - "SpigotGradle/build/libs/*"
+      - "build/libs/*"
     expire_in: 31 days
+
+build-test-image:
+  stage: build
+  image: docker:19.03.1
+  services:
+    - docker:19.03.1-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+    # See https://github.com/docker-library/docker/pull/166
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker info
+  after_script:
+    - echo "End CI"
+  script:
+    - IMAGE_TAG="$CI_REGISTRY_IMAGE/example-build:$CI_COMMIT_REF_SLUG"
+    - echo "Image tag '$IMAGE_TAG'"
+    - cd example/docker
+    - docker build --pull -t "$IMAGE_TAG" .
+    - docker push "$IMAGE_TAG"
+
+
 
 test-plugin:
   stage: test
   script:
-    - cd SpigotGradle
-    - ../gradlew test
+    - ./gradlew test
   artifacts:
     when: always
     reports:
-      junit: "build/*/test-results/test/TEST-*.xml"
+      junit: "build/test-results/test/TEST-*.xml"
     expire_in: 15 days
+
+test-example-server:
+  stage: test
+  image: $CI_REGISTRY_IMAGE/example-build:$CI_COMMIT_REF_SLUG
+  script:
+    - cd example
+    - ./gradlew spigotServerPrepare
