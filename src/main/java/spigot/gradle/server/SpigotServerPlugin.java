@@ -79,7 +79,12 @@ public class SpigotServerPlugin implements Plugin<Project> {
             t.setGroup("spigot server");
             t.dependsOn(taskServerPrepare);
             t.workingDir(spigotExtension.server.root);
-            t.commandLine("java", "-jar", spigotExtension.server.spigotJar.get());
+            //noinspection RedundantCast
+            t.commandLine((Object[]) ("java"
+                    + (spigotExtension.server.memory.isPresent() ? " -Xmx" + spigotExtension.server.memory.get() : "")
+                    + " -jar " + spigotExtension.server.spigotJar.get()
+                    + (spigotExtension.server.nogui.get() ? " nogui" : "")
+            ).split(" "));
         });
 
         project.getGradle().projectsEvaluated(gradle -> {

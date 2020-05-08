@@ -104,6 +104,8 @@ public class SpigotExtension extends HasProject {
         public final DirectoryProperty spigotPlugins = project.getObjects().directoryProperty().convention(root.dir("plugins"));
         public final RegularFileProperty spigotJar = project.getObjects().fileProperty().convention(root.file("spigot.jar"));
         public final RegularFileProperty eulaTxt = project.getObjects().fileProperty().convention(root.file("eula.txt"));
+        public Property<String> memory = project.getObjects().property(String.class);
+        public Property<Boolean> nogui = project.getObjects().property(Boolean.class).convention(true);
 
         public Directory getRoot() {
             return root.get();
@@ -151,6 +153,30 @@ public class SpigotExtension extends HasProject {
 
         public void setEulaTxt(Provider<? extends RegularFile> provider) {
             eulaTxt.set(provider);
+        }
+
+        public String getMemory() {
+            return memory.get();
+        }
+
+        public void setMemory(@Nullable String value) {
+            memory.set(value);
+        }
+
+        public void setMemory(Provider<? extends String> provider) {
+            memory.set(provider);
+        }
+
+        public boolean getNogui() {
+            return nogui.get();
+        }
+
+        public void setNogui(boolean value) {
+            nogui.set(value);
+        }
+
+        public void setNogui(Provider<? extends Boolean> provider) {
+            nogui.set(provider);
         }
     }
 
