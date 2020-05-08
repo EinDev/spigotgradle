@@ -1,0 +1,3 @@
+FROM adoptopenjdk/openjdk8:alpine
+
+RUN apk update && apk add curl git git-subtree openssh-client && rm -rf /var/cache/apk/*
