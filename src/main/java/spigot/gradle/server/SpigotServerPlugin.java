@@ -2,10 +2,7 @@ package spigot.gradle.server;
 
 import org.gradle.api.*;
 import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.tasks.Copy;
-import org.gradle.api.tasks.Exec;
-import org.gradle.api.tasks.TaskContainer;
-import org.gradle.api.tasks.TaskProvider;
+import org.gradle.api.tasks.*;
 import spigot.gradle.SpigotBasePlugin;
 import spigot.gradle.SpigotExtension;
 import spigot.gradle.server.task.SpigotBuildToolBuild;
@@ -34,7 +31,11 @@ public class SpigotServerPlugin implements Plugin<Project> {
         });
 
         //spigot server
-        NamedDomainObjectProvider<Configuration> configurationSpigotPlugin = project.getConfigurations().register(CONFIGURATION_SPIGOT_PLUGIN);
+        NamedDomainObjectProvider<Configuration> configurationSpigotPlugin = project.getConfigurations().register(CONFIGURATION_SPIGOT_PLUGIN, c -> {
+            c.setCanBeConsumed(false);
+            c.setCanBeResolved(true);
+            c.setTransitive(false);
+        });
 
         TaskProvider<Task> taskServerPrepare = project.getTasks().register("spigotServerPrepare", t -> {
             t.setDescription("prepares the server");
@@ -52,11 +53,12 @@ public class SpigotServerPlugin implements Plugin<Project> {
         });
         taskServerPrepare.configure(t -> t.dependsOn(taskServerJar));
 
-        TaskProvider<Copy> taskServerPlugins = tasks.register("spigotServerPlugins", Copy.class, t -> {
+        TaskProvider<Sync> taskServerPlugins = tasks.register("spigotServerPlugins", Sync.class, t -> {
             t.setDescription("copies the plugins");
             t.setGroup("spigot server");
             t.from(configurationSpigotPlugin);
             t.into(spigotExtension.server.spigotPlugins);
+            t.getPreserve().exclude("*.jar");
         });
         taskServerPrepare.configure(t -> t.dependsOn(taskServerPlugins));
 
