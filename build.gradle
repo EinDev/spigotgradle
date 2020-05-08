@@ -5,9 +5,17 @@ plugins {
 
 gradlePlugin {
     plugins {
-        SpigotGradle {
-            id = 'spigot-gradle'
-            implementationClass = 'spigot.gradle.SpigotPlugin'
+        SpigotBase {
+            id = 'spigot-base'
+            implementationClass = 'spigot.gradle.SpigotBasePlugin'
+        }
+        SpigotPlugin {
+            id = 'spigot-plugin'
+            implementationClass = 'spigot.gradle.plugin.SpigotPluginPlugin'
+        }
+        SpigotServer {
+            id = 'spigot-server'
+            implementationClass = 'spigot.gradle.server.SpigotServerPlugin'
         }
     }
 }
