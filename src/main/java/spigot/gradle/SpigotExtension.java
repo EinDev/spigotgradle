@@ -100,7 +100,7 @@ public class SpigotExtension extends HasProject {
 
     public class Server {
 
-        public final DirectoryProperty root = project.getObjects().directoryProperty().convention(project.getLayout().getBuildDirectory().dir("spigotServer"));
+        public final DirectoryProperty root = project.getObjects().directoryProperty().convention(project.getLayout().getProjectDirectory().dir("server"));
         public final DirectoryProperty spigotPlugins = project.getObjects().directoryProperty().convention(root.dir("plugins"));
         public final RegularFileProperty spigotJar = project.getObjects().fileProperty().convention(root.file("spigot.jar"));
         public final RegularFileProperty eulaTxt = project.getObjects().fileProperty().convention(root.file("eula.txt"));
