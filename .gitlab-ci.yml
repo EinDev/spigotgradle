@@ -17,23 +17,21 @@ cache:
 
 
 
-build:
+plugin-build:
   stage: build
   script:
-    - cd SpigotGradle
-    - ../gradlew assemble
+    - ./gradlew assemble
   artifacts:
     paths:
-      - "SpigotGradle/build/libs/*"
+      - "build/libs/*"
     expire_in: 31 days
 
-test-plugin:
+plugin-test:
   stage: test
   script:
-    - cd SpigotGradle
-    - ../gradlew test
+    - ./gradlew test
   artifacts:
     when: always
     reports:
-      junit: "build/*/test-results/test/TEST-*.xml"
+      junit: "build/test-results/test/TEST-*.xml"
     expire_in: 15 days
