@@ -27,31 +27,31 @@ public class SpigotExtension extends HasProject {
 
     public class Plugin {
 
-        public Property<Boolean> addRepo = project.getObjects().property(Boolean.class).convention(true);
-        public Property<Boolean> addApi = project.getObjects().property(Boolean.class).convention(true);
+        public Property<Boolean> repos = project.getObjects().property(Boolean.class).convention(true);
+        public Property<Boolean> api = project.getObjects().property(Boolean.class).convention(true);
 
-        public boolean getAddRepo() {
-            return addRepo.get();
+        public boolean getRepos() {
+            return repos.get();
         }
 
-        public void setAddRepo(boolean value) {
-            addRepo.set(value);
+        public void setRepos(boolean value) {
+            repos.set(value);
         }
 
         public void setAddRepo(Provider<? extends Boolean> provider) {
-            addRepo.set(provider);
+            repos.set(provider);
         }
 
-        public boolean getAddApi() {
-            return addApi.get();
+        public boolean getApi() {
+            return api.get();
         }
 
-        public void setAddApi(boolean value) {
-            addApi.set(value);
+        public void setApi(boolean value) {
+            api.set(value);
         }
 
         public void setAddApi(Provider<? extends Boolean> provider) {
-            addApi.set(provider);
+            api.set(provider);
         }
     }
 

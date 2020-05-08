@@ -21,12 +21,12 @@ public class SpigotPluginPlugin implements Plugin<Project> {
         SpigotExtension spigotExtension = SpigotExtension.get(project);
 
         project.getGradle().projectsEvaluated(gradle -> {
-            if (spigotExtension.plugin.addRepo.get()) {
+            if (spigotExtension.plugin.repos.get()) {
                 project.getRepositories().maven(mvn -> mvn.setUrl("https://hub.spigotmc.org/nexus/content/repositories/snapshots/"));
                 project.getRepositories().maven(mvn -> mvn.setUrl("https://hub.spigotmc.org/nexus/content/groups/public/"));
             }
 
-            if(spigotExtension.plugin.addApi.get()) {
+            if(spigotExtension.plugin.api.get()) {
                 project.getDependencies().add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, "org.spigotmc:spigot-api:" + spigotExtension.version.get() + "-R0.1-SNAPSHOT");
             }
 
