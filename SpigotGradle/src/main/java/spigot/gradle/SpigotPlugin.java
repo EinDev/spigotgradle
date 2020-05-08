@@ -59,6 +59,7 @@ public class SpigotPlugin implements Plugin<Project> {
         TaskProvider<Task> taskServerEluaAccept = tasks.register("spigotServerEulaAccept", t -> {
             t.setDescription("accepts the elua");
             t.setGroup("spigot server");
+            t.getOutputs().file(spigotExtension.server.eulaTxt);
             t.doFirst(t2 -> {
                 try {
                     Files.write(spigotExtension.server.eulaTxt.get().getAsFile().toPath(), "eula=true".getBytes());
