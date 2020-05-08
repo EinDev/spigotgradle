@@ -1,5 +1,4 @@
 plugins {
-    id 'java-library'
     id 'spigot-plugin'
     id 'spigot-server'
 }
@@ -8,7 +7,7 @@ group 'org.example'
 version '1.0-SNAPSHOT'
 
 spigot {
-    version.value '1.15.2'
+    version '1.15.2'
 }
 
 repositories {

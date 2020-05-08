@@ -1,9 +1,14 @@
 package spigot.gradle;
 
 import org.gradle.api.Project;
+import org.gradle.api.file.Directory;
 import org.gradle.api.file.DirectoryProperty;
+import org.gradle.api.file.RegularFile;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.Property;
+import org.gradle.api.provider.Provider;
+
+import javax.annotation.Nullable;
 
 public class SpigotExtension extends HasProject {
 
@@ -25,6 +30,29 @@ public class SpigotExtension extends HasProject {
         public Property<Boolean> addRepo = project.getObjects().property(Boolean.class).convention(true);
         public Property<Boolean> addApi = project.getObjects().property(Boolean.class).convention(true);
 
+        public boolean getAddRepo() {
+            return addRepo.get();
+        }
+
+        public void setAddRepo(boolean value) {
+            addRepo.set(value);
+        }
+
+        public void setAddRepo(Provider<? extends Boolean> provider) {
+            addRepo.set(provider);
+        }
+
+        public boolean getAddApi() {
+            return addApi.get();
+        }
+
+        public void setAddApi(boolean value) {
+            addApi.set(value);
+        }
+
+        public void setAddApi(Provider<? extends Boolean> provider) {
+            addApi.set(provider);
+        }
     }
 
     public class BuildTool {
@@ -33,6 +61,41 @@ public class SpigotExtension extends HasProject {
         public final RegularFileProperty buildToolJar = project.getObjects().fileProperty().convention(root.file("BuildTool.jar"));
         public final DirectoryProperty build = project.getObjects().directoryProperty().convention(root.dir("build"));
 
+        public Directory getRoot() {
+            return root.get();
+        }
+
+        public void setRoot(@Nullable Directory value) {
+            root.set(value);
+        }
+
+        public void setRoot(Provider<? extends Directory> provider) {
+            root.set(provider);
+        }
+
+        public RegularFile getBuildToolJar() {
+            return buildToolJar.get();
+        }
+
+        public void setBuildToolJar(@Nullable RegularFile value) {
+            buildToolJar.set(value);
+        }
+
+        public void setBuildToolJar(Provider<? extends RegularFile> provider) {
+            buildToolJar.set(provider);
+        }
+
+        public Directory getBuild() {
+            return build.get();
+        }
+
+        public void setBuild(@Nullable Directory value) {
+            build.set(value);
+        }
+
+        public void setBuild(Provider<? extends Directory> provider) {
+            build.set(provider);
+        }
     }
 
     public class Server {
@@ -42,5 +105,64 @@ public class SpigotExtension extends HasProject {
         public final RegularFileProperty spigotJar = project.getObjects().fileProperty().convention(root.file("spigot.jar"));
         public final RegularFileProperty eulaTxt = project.getObjects().fileProperty().convention(root.file("eula.txt"));
 
+        public Directory getRoot() {
+            return root.get();
+        }
+
+        public void setRoot(@Nullable Directory value) {
+            root.set(value);
+        }
+
+        public void setRoot(Provider<? extends Directory> provider) {
+            root.set(provider);
+        }
+
+        public Directory getSpigotPlugins() {
+            return spigotPlugins.get();
+        }
+
+        public void setSpigotPlugins(@Nullable Directory value) {
+            spigotPlugins.set(value);
+        }
+
+        public void setSpigotPlugins(Provider<? extends Directory> provider) {
+            spigotPlugins.set(provider);
+        }
+
+        public RegularFile getSpigotJar() {
+            return spigotJar.get();
+        }
+
+        public void setSpigotJar(@Nullable RegularFile value) {
+            spigotJar.set(value);
+        }
+
+        public void setSpigotJar(Provider<? extends RegularFile> provider) {
+            spigotJar.set(provider);
+        }
+
+        public RegularFile getEulaTxt() {
+            return eulaTxt.get();
+        }
+
+        public void setEulaTxt(@Nullable RegularFile value) {
+            eulaTxt.set(value);
+        }
+
+        public void setEulaTxt(Provider<? extends RegularFile> provider) {
+            eulaTxt.set(provider);
+        }
+    }
+
+    public String getVersion() {
+        return version.get();
+    }
+
+    public void setVersion(@Nullable String value) {
+        version.set(value);
+    }
+
+    public void setVersion(Provider<? extends String> provider) {
+        version.set(provider);
     }
 }
