@@ -60,6 +60,7 @@ public class SpigotExtension extends HasProject {
         public final DirectoryProperty root = project.getObjects().directoryProperty().convention(project.getLayout().getBuildDirectory().dir("spigotBuildTool"));
         public final RegularFileProperty buildToolJar = project.getObjects().fileProperty().convention(root.file("BuildTool.jar"));
         public final DirectoryProperty build = project.getObjects().directoryProperty().convention(root.dir("build"));
+        public final Property<Boolean> quiet = project.getObjects().property(Boolean.class).convention(true);
 
         public Directory getRoot() {
             return root.get();
@@ -95,6 +96,18 @@ public class SpigotExtension extends HasProject {
 
         public void setBuild(Provider<? extends Directory> provider) {
             build.set(provider);
+        }
+
+        public boolean getQuiet() {
+            return quiet.get();
+        }
+
+        public void setQuiet(boolean value) {
+            quiet.set(value);
+        }
+
+        public void setQuiet(Provider<? extends Boolean> provider) {
+            quiet.set(provider);
         }
     }
 

@@ -67,3 +67,10 @@ test-example-server:
   script:
     - cd example
     - ./gradlew spigotServerPrepare
+    - MESSAGE="ci spigot server test commit-$CI_COMMIT_SHA"
+    - echo $MESSAGE | tee src/main/resources/example/plugin/EnableMessage.txt
+    - nohup ./gradlew run --console=plain | tee server.log &
+    - SERVERPID=$!
+    - ( timeout 180s tail -fn +0 server.log & ) | grep -q "$MESSAGE" || ( echo "Timeout waiting for message!" && exit 1 )
+    - kill $SERVERPID
+    - while kill -0 $SERVERPID &>/dev/null; do sleep 1; done
