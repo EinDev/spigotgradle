@@ -8,12 +8,16 @@ import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
+import org.jetbrains.annotations.NotNull;
 import spigot.gradle.SpigotExtension;
+
+import java.io.OutputStream;
 
 public class SpigotBuildToolBuild extends DefaultTask {
 
     @Input
     public Property<String> version = getProject().getObjects().property(String.class).convention(SpigotExtension.get(getProject()).version);
+    public Property<Boolean> quiet = getProject().getObjects().property(Boolean.class).convention(SpigotExtension.get(getProject()).buildTool.quiet);
     @InputFile
     public RegularFileProperty buildToolJar = getProject().getObjects().fileProperty().convention(SpigotExtension.get(getProject()).buildTool.buildToolJar);
 
@@ -30,6 +34,35 @@ public class SpigotBuildToolBuild extends DefaultTask {
         getProject().exec(e -> {
             e.workingDir(buildToolBuild);
             e.commandLine("java", "-jar", buildToolJar.get().getAsFile().getPath(), "--rev", version.get());
+            if (quiet.get()) {
+                getLogger().warn("Spigot BuildTool output is silenced. Building may take a couple minutes just wait patiently...");
+                e.setStandardOutput(new OutputStream() {
+                    @Override
+                    public void write(int b) {
+
+                    }
+
+                    @Override
+                    public void write(@NotNull byte[] b) {
+
+                    }
+
+                    @Override
+                    public void write(@NotNull byte[] b, int off, int len) {
+
+                    }
+
+                    @Override
+                    public void flush() {
+
+                    }
+
+                    @Override
+                    public void close() {
+
+                    }
+                });
+            }
         }).assertNormalExitValue().rethrowFailure();
     }
 
