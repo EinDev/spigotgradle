@@ -1,9 +1,10 @@
 plugins {
     id 'java-gradle-plugin'
+    id 'com.gradle.plugin-publish' version '0.11.0'
     id "com.palantir.git-version" version "0.12.3"
 }
 
-group 'SpaceGameDev'
+group 'com.gitlab.firestar99.spigotgradle'
 def details = versionDetails()
 def verPre = details.lastTag.substring(0, details.lastTag.lastIndexOf('.') + 1)
 def verNumber = Integer.parseInt(details.lastTag.substring(details.lastTag.lastIndexOf('.') + 1, details.lastTag.length())) + details.commitDistance
@@ -13,18 +14,30 @@ version verPre + verNumber + verPost
 gradlePlugin {
     plugins {
         SpigotBase {
-            id = 'spigot-base'
-            implementationClass = 'spigot.gradle.SpigotBasePlugin'
+            id = 'com.gitlab.firestar99.spigotgradle.base'
+            displayName = 'Base plugin for SpigotGradle'
+            description = 'Base plugin with shared code of SpigotGradle plugin and server'
+            implementationClass = 'firestar99.spigotgradle.SpigotBasePlugin'
         }
         SpigotPlugin {
-            id = 'spigot-plugin'
-            implementationClass = 'spigot.gradle.plugin.SpigotPluginPlugin'
+            id = 'com.gitlab.firestar99.spigotgradle.plugin'
+            displayName = 'Setup spigot repos and dependencies for plugin development'
+            description = 'This Plugin sets up the spigot repos and adds the spigot api dependency to the project automatically'
+            implementationClass = 'firestar99.spigotgradle.plugin.SpigotPluginPlugin'
         }
         SpigotServer {
-            id = 'spigot-server'
-            implementationClass = 'spigot.gradle.server.SpigotServerPlugin'
+            id = 'com.gitlab.firestar99.spigotgradle.server'
+            displayName = 'Setup a spigot server for development'
+            description = 'Automatically builds the spigot jar using the spigot BuildTool, sets up a spigot server in /server and puts the plugins in the correct place'
+            implementationClass = 'firestar99.spigotgradle.server.SpigotServerPlugin'
         }
     }
+}
+
+pluginBundle {
+    website = 'https://gitlab.com/Firestar99/spigotgradle/readme.md'
+    vcsUrl = 'https://gitlab.com/Firestar99/spigotgradle/'
+    tags = ['minecraft', 'spigot', 'bukkit']
 }
 
 java {

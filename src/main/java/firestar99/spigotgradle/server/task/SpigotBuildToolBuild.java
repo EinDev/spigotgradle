@@ -1,5 +1,6 @@
-package spigot.gradle.server.task;
+package firestar99.spigotgradle.server.task;
 
+import firestar99.spigotgradle.SpigotExtension;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.RegularFileProperty;
@@ -9,7 +10,6 @@ import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
-import spigot.gradle.SpigotExtension;
 
 import java.io.OutputStream;
 

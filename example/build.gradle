@@ -1,6 +1,6 @@
 plugins {
-    id 'spigot-plugin'
-    id 'spigot-server'
+    id 'com.gitlab.firestar99.spigotgradle.plugin'
+    id 'com.gitlab.firestar99.spigotgradle.server'
 }
 
 group 'org.example'

@@ -1,5 +1,6 @@
-package spigot.gradle.server.task;
+package firestar99.spigotgradle.server.task;
 
+import firestar99.spigotgradle.SpigotExtension;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.file.RegularFileProperty;
@@ -7,7 +8,6 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
-import spigot.gradle.SpigotExtension;
 
 import java.io.IOException;
 import java.io.InputStream;

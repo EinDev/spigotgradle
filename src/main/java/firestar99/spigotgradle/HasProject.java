@@ -1,4 +1,4 @@
-package spigot.gradle;
+package firestar99.spigotgradle;
 
 import org.gradle.api.Project;
 
