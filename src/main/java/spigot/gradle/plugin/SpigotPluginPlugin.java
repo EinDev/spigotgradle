@@ -30,7 +30,7 @@ public class SpigotPluginPlugin implements Plugin<Project> {
                 project.getDependencies().add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, "org.spigotmc:spigot-api:" + spigotExtension.version.get() + "-R0.1-SNAPSHOT");
             }
 
-            project.getPlugins().withId("spigot-server", plugin -> {
+            project.getPlugins().withType(SpigotServerPlugin.class, plugin -> {
                 project.getDependencies().add(SpigotServerPlugin.CONFIGURATION_SPIGOT_PLUGIN, project);
             });
         });
