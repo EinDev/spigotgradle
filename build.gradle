@@ -61,3 +61,8 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 }
+
+publishPlugins.doFirst {
+    if(!verPost.isEmpty())
+        throw new GradleException("Only execute this on master! Otherwise versioning is messed up.");
+}
