@@ -1,7 +1,14 @@
 plugins {
-    id 'java-library'
     id 'java-gradle-plugin'
+    id "com.palantir.git-version" version "0.12.3"
 }
+
+group 'SpaceGameDev'
+def details = versionDetails()
+def verPre = details.lastTag.substring(0, details.lastTag.lastIndexOf('.') + 1)
+def verNumber = Integer.parseInt(details.lastTag.substring(details.lastTag.lastIndexOf('.') + 1, details.lastTag.length())) + details.commitDistance
+def verPost = details.branchName == "master" ? "" : details.branchName ? "-" + details.branchName : "-detached"
+version verPre + verNumber + verPost
 
 gradlePlugin {
     plugins {
@@ -24,9 +31,6 @@ java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
-
-group 'SpaceGameDev'
-version '1.0'
 
 //noinspection GroovyUnusedAssignment
 targetCompatibility = 1.8
