@@ -1,12 +1,12 @@
-package spigot.gradle.server;
+package firestar99.spigotgradle.server;
 
+import firestar99.spigotgradle.SpigotBasePlugin;
+import firestar99.spigotgradle.SpigotExtension;
+import firestar99.spigotgradle.server.task.SpigotBuildToolBuild;
+import firestar99.spigotgradle.server.task.SpigotBuildToolDownload;
 import org.gradle.api.*;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.tasks.*;
-import spigot.gradle.SpigotBasePlugin;
-import spigot.gradle.SpigotExtension;
-import spigot.gradle.server.task.SpigotBuildToolBuild;
-import spigot.gradle.server.task.SpigotBuildToolDownload;
 
 import java.io.IOException;
 import java.nio.file.Files;

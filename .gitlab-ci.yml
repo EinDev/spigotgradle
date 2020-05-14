@@ -64,6 +64,20 @@ test-plugin:
 test-example-server:
   stage: test
   image: $CI_REGISTRY_IMAGE/example-build:$CI_COMMIT_REF_SLUG
+  cache:
+    key: example-server
+    paths:
+      - example/server/world*
+      - example/build/spigotBuildTool/BuildTool.jar
+      - example/build/spigotBuildTool/build/apache-*
+      - example/build/spigotBuildTool/build/BuildData/.git
+      - example/build/spigotBuildTool/build/Bukkit/.git
+      - example/build/spigotBuildTool/build/CraftBukkit/.git
+      - example/build/spigotBuildTool/build/Spigot/.git
+      - .gradle/wrapper/*/*/*/*.zip
+      - .gradle/caches/*/generated-gradle-jars/*.jar
+      - .gradle/caches/jars*
+      - .gradle/caches/modules*
   script:
     - cd example
     - ./gradlew spigotServerPrepare
