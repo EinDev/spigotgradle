@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - publish
 
 image: $CI_REGISTRY_IMAGE/example-build:$CI_COMMIT_REF_SLUG
 before_script:
@@ -20,6 +21,7 @@ cache:
 build-plugin:
   stage: build
   image: openjdk:8-alpine
+  dependencies: []
   script:
     - ./gradlew assemble
   artifacts:
@@ -32,6 +34,7 @@ build-test-image:
   image: docker:19.03.1
   services:
     - docker:19.03.1-dind
+  dependencies: []
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
@@ -53,6 +56,7 @@ build-test-image:
 
 test-plugin:
   stage: test
+  dependencies: []
   script:
     - ./gradlew test
   artifacts:
@@ -64,6 +68,7 @@ test-plugin:
 test-example-server:
   stage: test
   image: $CI_REGISTRY_IMAGE/example-build:$CI_COMMIT_REF_SLUG
+  dependencies: []
   cache:
     key: example-server
     paths:
@@ -88,3 +93,17 @@ test-example-server:
     - ( timeout 180s tail -fn +0 server.log & ) | grep -q "$MESSAGE" || ( echo "Timeout waiting for message!" && exit 1 )
     - kill $SERVERPID
     - while kill -0 $SERVERPID &>/dev/null; do sleep 1; done
+
+
+
+publish-plugin:
+  stage: publish
+  dependencies: []
+  environment:
+    name: gradle-plugin-portal
+    url: https://plugins.gradle.org/plugin/com.gitlab.firestar99.spigotgradle.server
+  script:
+    - ./gradlew publishPlugins -Pgradle.publish.key=$GRADLE_PUBLISH_KEY -Pgradle.publish.secret=$GRADLE_PUBLISH_SECRET
+  only:
+    refs:
+      - master
