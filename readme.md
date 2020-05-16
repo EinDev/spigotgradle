@@ -8,7 +8,7 @@ This plugin completely automates:
 
 ## How to use (basic)
 
-1. create a new gradle project. Either use your favorite IDE or get gradle at gradle.org, execute `gradle init` and just use the default selection (press enter until it's done).
+1. create a new gradle project. Either use your favorite IDE or get gradle at [gradle.org](https://gradle.org/install/), execute `gradle init` and just use the default selection (press enter until it's done).
 
 2. copy this into your `build.gradle`. Insert your own configuration into the `<brackets>`, though keep the `'` around it as these are strings.
 ```Groovy
@@ -30,12 +30,17 @@ spigot {
 /server
 ```
 
-If you want the server world and settings to be committed, add this to your `.gitignore` to prevent conflicts:
+   If you want the server world and settings to be committed, add this to your `.gitignore` to prevent conflicts:
 ```
 /server/spigot.jar
 /server/plugins
 /server/eula.txt
 ```
+
+4. Start developing! Here are some final notes:
+    - execute `./gradlew run` to build everything and start the spigot server
+    - your java source code goes into `/src/main/java` just like in any other gradle or maven project
+    - most IDEs have support for importing gradle projects, this usually allows for code recommendations and running the server directly from IDE
 
 ## How to use (advanced)
 
