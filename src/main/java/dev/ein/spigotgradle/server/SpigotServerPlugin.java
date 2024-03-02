@@ -1,9 +1,9 @@
-package firestar99.spigotgradle.server;
+package dev.ein.spigotgradle.server;
 
-import firestar99.spigotgradle.SpigotBasePlugin;
-import firestar99.spigotgradle.SpigotExtension;
-import firestar99.spigotgradle.server.task.SpigotBuildToolBuild;
-import firestar99.spigotgradle.server.task.SpigotBuildToolDownload;
+import dev.ein.spigotgradle.server.task.SpigotBuildToolBuild;
+import dev.ein.spigotgradle.server.task.SpigotBuildToolDownload;
+import dev.ein.spigotgradle.SpigotBasePlugin;
+import dev.ein.spigotgradle.SpigotExtension;
 import org.gradle.api.*;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.tasks.*;

@@ -1,6 +1,6 @@
-package firestar99.spigotgradle.server.task;
+package dev.ein.spigotgradle.server.task;
 
-import firestar99.spigotgradle.SpigotExtension;
+import dev.ein.spigotgradle.SpigotExtension;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.file.RegularFileProperty;

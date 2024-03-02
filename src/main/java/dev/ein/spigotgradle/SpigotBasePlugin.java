@@ -1,4 +1,4 @@
-package firestar99.spigotgradle;
+package dev.ein.spigotgradle;
 
 import org.gradle.api.GradleException;
 import org.gradle.api.NonNullApi;

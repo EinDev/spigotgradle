@@ -1,4 +1,4 @@
-package firestar99.spigotgradle;
+package dev.ein.spigotgradle;
 
 import org.gradle.api.Project;
 import org.gradle.api.file.Directory;
@@ -16,6 +16,7 @@ public class SpigotExtension extends HasProject {
         return project.getConvention().getByType(SpigotExtension.class);
     }
 
+    public final Property<ServerVersionFlavor> flavor = project.getObjects().property(ServerVersionFlavor.class);
     public final Property<String> version = project.getObjects().property(String.class);
     public final Plugin plugin = new Plugin();
     public final BuildTool buildTool = new BuildTool();
@@ -193,6 +194,18 @@ public class SpigotExtension extends HasProject {
         }
     }
 
+    public String getFlavor() {
+        return flavor.toString();
+    }
+
+    public void setFlavor(@Nullable ServerVersionFlavor value) {
+        this.flavor.set(value);
+    }
+
+    public void setFlavor(Provider<? extends ServerVersionFlavor> provider) {
+        this.flavor.set(provider);
+    }
+
     public String getVersion() {
         return version.get();
     }
@@ -203,5 +216,12 @@ public class SpigotExtension extends HasProject {
 
     public void setVersion(Provider<? extends String> provider) {
         version.set(provider);
+    }
+
+    public enum ServerVersionFlavor {
+        SPIGOT(),
+        PAPER();
+
+        ServerVersionFlavor() {}
     }
 }

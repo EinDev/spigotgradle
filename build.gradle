@@ -4,7 +4,7 @@ plugins {
     id "com.palantir.git-version" version "0.12.3"
 }
 
-group 'com.gitlab.firestar99.spigotgradle'
+group 'dev.ein.spigotgradle'
 def details = versionDetails()
 def verPre = details.lastTag.substring(0, details.lastTag.lastIndexOf('.') + 1)
 def verNumber = Integer.parseInt(details.lastTag.substring(details.lastTag.lastIndexOf('.') + 1, details.lastTag.length())) + details.commitDistance
@@ -14,30 +14,24 @@ version verPre + verNumber + verPost
 gradlePlugin {
     plugins {
         SpigotBase {
-            id = 'com.gitlab.firestar99.spigotgradle.base'
+            id = 'dev.ein.spigotgradle.base'
             displayName = 'Base plugin for SpigotGradle'
             description = 'Base plugin with shared code of SpigotGradle plugin and server'
-            implementationClass = 'firestar99.spigotgradle.SpigotBasePlugin'
+            implementationClass = 'dev.ein.spigotgradle.SpigotBasePlugin'
         }
         SpigotPlugin {
-            id = 'com.gitlab.firestar99.spigotgradle.plugin'
+            id = 'dev.ein.spigotgradle.plugin'
             displayName = 'Setup spigot repos and dependencies for plugin development'
             description = 'This Plugin sets up the spigot repos and adds the spigot api dependency to the project automatically'
-            implementationClass = 'firestar99.spigotgradle.plugin.SpigotPluginPlugin'
+            implementationClass = 'dev.ein.spigotgradle.plugin.SpigotPluginPlugin'
         }
         SpigotServer {
-            id = 'com.gitlab.firestar99.spigotgradle.server'
+            id = 'dev.ein.spigotgradle.server'
             displayName = 'Setup a spigot server for development'
             description = 'Automatically builds the spigot jar using the spigot BuildTool, sets up a spigot server in /server and puts the plugins in the correct place'
-            implementationClass = 'firestar99.spigotgradle.server.SpigotServerPlugin'
+            implementationClass = 'dev.ein.spigotgradle.server.SpigotServerPlugin'
         }
     }
-}
-
-pluginBundle {
-    website = 'https://gitlab.com/Firestar99/spigotgradle/readme.md'
-    vcsUrl = 'https://gitlab.com/Firestar99/spigotgradle/'
-    tags = ['minecraft', 'spigot', 'bukkit']
 }
 
 java {
@@ -51,13 +45,9 @@ targetCompatibility = 1.8
 sourceCompatibility = 1.8
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
     implementation 'org.jetbrains:annotations:16.0.3'
-    implementation localGroovy()
-
-    testImplementation 'junit:junit:4.12'
 }

@@ -1,8 +1,8 @@
-package firestar99.spigotgradle.plugin;
+package dev.ein.spigotgradle.plugin;
 
-import firestar99.spigotgradle.SpigotBasePlugin;
-import firestar99.spigotgradle.SpigotExtension;
-import firestar99.spigotgradle.server.SpigotServerPlugin;
+import dev.ein.spigotgradle.SpigotExtension;
+import dev.ein.spigotgradle.server.SpigotServerPlugin;
+import dev.ein.spigotgradle.SpigotBasePlugin;
 import org.gradle.api.NonNullApi;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
