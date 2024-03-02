@@ -68,3 +68,15 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:7.1.2'
 }
+
+publishing {
+    repositories {
+        maven {
+            url "https://maven.ein.dev/repository/zerjin-personal/"
+            credentials {
+                username = mavenUser
+                password = mavenPassword
+            }
+        }
+    }
+}
