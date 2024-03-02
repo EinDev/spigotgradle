@@ -5,8 +5,10 @@ import org.gradle.api.file.Directory;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.RegularFile;
 import org.gradle.api.file.RegularFileProperty;
+import org.gradle.api.internal.provider.AbstractReadOnlyProvider;
 import org.gradle.api.provider.Property;
 import org.gradle.api.provider.Provider;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -116,10 +118,10 @@ public class SpigotExtension extends HasProject {
 
         public final DirectoryProperty root = project.getObjects().directoryProperty().convention(project.getLayout().getProjectDirectory().dir("server"));
         public final DirectoryProperty spigotPlugins = project.getObjects().directoryProperty().convention(root.dir("plugins"));
-        public final RegularFileProperty spigotJar = project.getObjects().fileProperty().convention(root.file("spigot.jar"));
+        public final RegularFileProperty spigotJar = project.getObjects().fileProperty().convention(root.file(version.map(v -> String.format("%s-%s.jar", flavor.get(), v))));
         public final RegularFileProperty eulaTxt = project.getObjects().fileProperty().convention(root.file("eula.txt"));
-        public Property<String> memory = project.getObjects().property(String.class);
-        public Property<Boolean> nogui = project.getObjects().property(Boolean.class).convention(true);
+        public Property<String> memory = project.getObjects().property(String.class).convention("1G");
+        public Property<Boolean> nogui = project.getObjects().property(Boolean.class).convention(false);
 
         public Directory getRoot() {
             return root.get();

@@ -26,7 +26,7 @@ public class SpigotBuildToolBuild extends DefaultTask {
 
     public SpigotBuildToolBuild() {
         setDescription("Uses the spigot BuildTool to build a server jar");
-        setGroup("spigot");
+        setGroup("spigot flavor spigot");
     }
 
     @TaskAction

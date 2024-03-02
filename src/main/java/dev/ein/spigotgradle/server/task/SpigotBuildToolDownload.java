@@ -25,7 +25,7 @@ public class SpigotBuildToolDownload extends DefaultTask {
 
     public SpigotBuildToolDownload() {
         setDescription("Downloads the spigot BuildTool");
-        setGroup("spigot");
+        setGroup("spigot flavor spigot");
     }
 
     @TaskAction
