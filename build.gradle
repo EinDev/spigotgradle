@@ -11,11 +11,15 @@ plugins {
     id 'maven-publish'
 }
 
+
 group 'dev.ein.spigotgradle'
 def details = versionDetails()
 def verPre = details.lastTag.substring(0, details.lastTag.lastIndexOf('.') + 1)
 def verNumber = Integer.parseInt(details.lastTag.substring(details.lastTag.lastIndexOf('.') + 1, details.lastTag.length())) + details.commitDistance
 def verPost = details.branchName == null || details.branchName == "master" ? "" : "-" + details.branchName
+if(!details.isCleanTag) {
+    verPost += "-SNAPSHOT"
+}
 version verPre + verNumber + verPost
 
 gradlePlugin {
