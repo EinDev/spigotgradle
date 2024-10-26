@@ -23,6 +23,7 @@ public class SpigotExtension extends HasProject {
     public final Plugin plugin = new Plugin();
     public final BuildTool buildTool = new BuildTool();
     public final Server server = new Server();
+    public final Dependencies dependencies = new Dependencies();
 
     public SpigotExtension(Project project) {
         super(project);
@@ -56,6 +57,12 @@ public class SpigotExtension extends HasProject {
         public void setAddApi(Provider<? extends Boolean> provider) {
             api.set(provider);
         }
+    }
+
+    public class Dependencies {
+        public Property<Boolean> usePaper = project.getObjects().property(Boolean.class).convention(flavor.map(f -> f.equals(ServerVersionFlavor.PAPER)));
+        public Property<Boolean> useSpigot = project.getObjects().property(Boolean.class).convention(flavor.map(f -> f.equals(ServerVersionFlavor.SPIGOT)));
+
     }
 
     public class BuildTool {

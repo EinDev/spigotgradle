@@ -49,12 +49,6 @@ public class SpigotServerPlugin implements Plugin<Project> {
             c.setTransitive(false);
         });
 
-        tasks.named("compileJava", JavaCompile.class, t -> {
-            t.getOptions().setEncoding("UTF-8");
-            t.setSourceCompatibility("17");
-            t.setTargetCompatibility("17");
-        });
-
         TaskProvider<Task> taskServerPrepare = tasks.register("spigotServerPrepare", t -> {
             t.setDescription("prepares the server");
             t.setGroup("spigot server");
@@ -63,16 +57,12 @@ public class SpigotServerPlugin implements Plugin<Project> {
         TaskProvider<Copy> taskSpigotJar = configureSpigotDonwload(tasks, spigotExtension);
         TaskProvider<Download> taskDownloadPaperJar = configurePaperDownload(tasks, spigotExtension);
 
-        TaskProvider<ShadowJar> taskShadowJar = tasks.named("shadowJar", ShadowJar.class, t -> {
-            t.exclude("META-INF/**");
-            t.getArchiveFileName().set(String.format("%s-%s.jar", project.getName(), project.getVersion()));
-        });
+
 
         TaskProvider<Sync> taskServerPlugins = tasks.register("spigotServerPlugins", Sync.class, t -> {
             t.setDescription("copies the plugins and dependencies");
             t.setGroup("spigot server");
             t.from(project.getLayout().getProjectDirectory().dir("libs")).include("*.jar");
-            t.from(taskShadowJar);
             t.from(configurationSpigotPlugin);
             t.into(spigotExtension.server.spigotPlugins);
             t.getPreserve().exclude("*.jar");
@@ -104,20 +94,6 @@ public class SpigotServerPlugin implements Plugin<Project> {
             if(spigotExtension.server.nogui.get()) {
                 t.args("nogui");
             }
-        });
-
-        tasks.named("compileJava", t -> {
-            t.doLast(t2 -> {
-                File pluginYml = project.getBuildDir().toPath().resolve("classes/java/main/plugin.yml").toFile();
-                try {
-                    String content = FileUtils.readFileToString(pluginYml, StandardCharsets.UTF_8);
-                    content = content.replace("@@name@@", project.getName());
-                    content = content.replace("@@version@@", project.getVersion().toString());
-                    FileUtils.write(pluginYml, content, StandardCharsets.UTF_8);
-                } catch (IOException e) {
-                    throw new GradleException(e.getMessage());
-                }
-            });
         });
 
         project.getGradle().projectsEvaluated(gradle -> {
