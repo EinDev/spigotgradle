@@ -12,7 +12,7 @@ plugins {
 }
 
 
-group 'dev.ein.spigotgradle'
+group 'dev.ein'
 version project.findProperty("spigotgradle.version") ?: System.getenv("VERSION")
 
 gradlePlugin {
