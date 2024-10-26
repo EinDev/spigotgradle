@@ -13,8 +13,8 @@ This plugin completely automates:
 2. copy this into your `build.gradle`. Insert your own configuration into the `<brackets>`, though keep the `'` around it as these are strings.
 ```Groovy
 plugins {
-    id 'com.gitlab.firestar99.spigotgradle.plugin'
-    id 'com.gitlab.firestar99.spigotgradle.server'
+    id 'dev.ein.spigotgradle.plugin'
+    id 'dev.ein.spigotgradle.server'
 }
 
 group '<your groupname here>'
@@ -61,7 +61,7 @@ The 'plugin' plugin automatically configures the repositories and dependencies n
 Apply the plugin with:
 ```Groovy
 plugins {
-    id 'com.gitlab.firestar99.spigotgradle.plugin'
+    id 'dev.ein.spigotgradle.plugin'
 }
 ```
 
@@ -83,7 +83,7 @@ The 'server' plugin builds the spigot jar, puts together a minecraft spigot serv
 Apply the plugin with:
 ```Groovy
 plugins {
-    id 'com.gitlab.firestar99.spigotgradle.server'
+    id 'dev.ein.spigotgradle.server'
 }
 ```
 
