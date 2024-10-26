@@ -66,7 +66,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/EinDev/SpigotGradlePlugin")
+            url = uri("https://maven.pkg.github.com/zerjin-de-Ops/SpigotGradlePlugin")
             credentials {
                 username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
                 password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
