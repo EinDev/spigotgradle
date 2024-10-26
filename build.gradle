@@ -72,11 +72,17 @@ dependencies {
 publishing {
     repositories {
         maven {
-            url "https://maven.ein.dev/repository/zerjin-personal/"
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/EinDev/SpigotGradle")
             credentials {
-                username = mavenUser
-                password = mavenPassword
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
             }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
         }
     }
 }
