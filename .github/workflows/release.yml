@@ -7,6 +7,8 @@ on:
 jobs:
   get-version-number:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.tag_version.outputs.new_tag }}
     permissions:
       contents: write
     steps:
@@ -24,6 +26,8 @@ jobs:
           body: ${{ steps.tag_version.outputs.changelog }}
 
   deploy:
+    needs:
+      - get-version-number
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -41,6 +45,8 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
+        env:
+          VERSION: ${{ needs.get-version-number.outputs.version }}
 
       # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
       # the publishing section of your build.gradle
@@ -49,3 +55,4 @@ jobs:
         env:
           USERNAME: ${{ github.actor }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ needs.get-version-number.outputs.version }}
