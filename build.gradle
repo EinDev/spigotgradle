@@ -6,8 +6,8 @@ buildscript {
 
 plugins {
     id 'java-gradle-plugin'
-    id 'com.gradle.plugin-publish' version '0.11.0'
-    id "com.palantir.git-version" version "0.12.3"
+    id 'com.gradle.plugin-publish' version '1.3.0'
+    id "com.palantir.git-version" version "3.1.0"
     id 'maven-publish'
 }
 
@@ -15,10 +15,11 @@ plugins {
 group 'dev.ein.spigotgradle'
 def details = versionDetails()
 def verPre = details.lastTag.substring(0, details.lastTag.lastIndexOf('.') + 1)
-def verNumber = Integer.parseInt(details.lastTag.substring(details.lastTag.lastIndexOf('.') + 1, details.lastTag.length())) + details.commitDistance
+def verNumber = Integer.parseInt(details.lastTag.substring(details.lastTag.lastIndexOf('.') + 1, details.lastTag.length()))
 def verPost = details.branchName == null || details.branchName == "master" ? "" : "-" + details.branchName
 if(!details.isCleanTag) {
     verPost += "-SNAPSHOT"
+    verNumber++
 }
 version verPre + verNumber + verPost
 
