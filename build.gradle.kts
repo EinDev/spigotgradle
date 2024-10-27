@@ -24,17 +24,21 @@ val authorEmail = property("author.email")
 val projectName = property("project.name")
 
 group = property("project.group_id")
-val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
-var details = versionDetails()
-var verPre = details.lastTag.substring(1, details.lastTag.lastIndexOf('.') + 1)
-var verNumber =
-    Integer.parseInt(details.lastTag.substring(details.lastTag.lastIndexOf('.') + 1, details.lastTag.length))
-var verPost = if (details.branchName == null || details.branchName == "master") "" else "-" + details.branchName
-if (!details.isCleanTag) {
-    verPost = verPost + "-SNAPSHOT"
-    verNumber++
+
+fun getVersionFromGit(): String {
+    val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
+    var details = versionDetails()
+    var verPre = details.lastTag.substring(1, details.lastTag.lastIndexOf('.') + 1)
+    var verNumber =
+        Integer.parseInt(details.lastTag.substring(details.lastTag.lastIndexOf('.') + 1, details.lastTag.length))
+    var verPost = if (details.branchName == null || details.branchName == "master") "" else "-" + details.branchName
+    if (!details.isCleanTag) {
+        verPost = "$verPost-SNAPSHOT"
+        verNumber++
+    }
+    return verPre + verNumber + verPost
 }
-version = verPre + verNumber + verPost
+version = System.getenv("VERSION") ?: getVersionFromGit()
 
 gradlePlugin {
     isAutomatedPublishing = true
