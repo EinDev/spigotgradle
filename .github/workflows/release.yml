@@ -32,6 +32,9 @@ jobs:
     permissions:
       packages: write
       contents: read
+    environment:
+      name: "Maven Central"
+      url: "https://central.sonatype.com/artifact/dev.ein/spigotgradle"
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -48,11 +51,12 @@ jobs:
         env:
           VERSION: ${{ needs.get-version-number.outputs.version }}
 
-      # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-      # the publishing section of your build.gradle.kts
-      - name: Publish to GitHub Packages
-        run: ./gradlew publish
+      - name: Publish to Maven central
+        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
         env:
           USERNAME: ${{ github.actor }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ needs.get-version-number.outputs.version }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
