@@ -8,12 +8,13 @@ buildscript {
 
 plugins {
     id("java-gradle-plugin")
-    id("com.gradle.plugin-publish") version "1.3.0"
+    id("com.gradle.plugin-publish") version "1.3.1"
     id("com.palantir.git-version") version "3.1.0"
     id("maven-publish")
     id("signing")
     id("com.vanniktech.maven.publish") version "0.30.0"
     kotlin("jvm") version "2.0.21"
+    id("ru.vyarus.mkdocs") version "4.0.1"
 }
 
 fun property(key: String): String = project.extra[key] as String
@@ -22,6 +23,7 @@ fun property(key: String): String = project.extra[key] as String
 val authorName = property("author.username")
 val authorEmail = property("author.email")
 val projectName = property("project.name")
+val projectUrl = "github.com/$authorName/$projectName"
 
 group = property("project.group_id")
 
@@ -42,24 +44,15 @@ version = System.getenv("VERSION") ?: getVersionFromGit()
 
 gradlePlugin {
     isAutomatedPublishing = true
+    website = "https://$projectUrl"
+    vcsUrl = "https://$projectUrl.git"
     plugins {
-        create("SpigotBase") {
-            id = "dev.ein.spigotgradle.base"
-            displayName = "Base plugin for SpigotGradle"
-            description = "Base plugin with shared code of SpigotGradle plugin and server"
-            implementationClass = "dev.ein.spigotgradle.SpigotBasePlugin"
-        }
-        create("SpigotPlugin") {
-            id = "dev.ein.spigotgradle.plugin"
-            displayName = "Setup spigot repos and dependencies for plugin development"
-            description = "This Plugin sets up the spigot repos and adds the spigot api dependency to the project automatically"
-            implementationClass = "dev.ein.spigotgradle.plugin.SpigotPluginPlugin"
-        }
         create("SpigotServer") {
-            id = "dev.ein.spigotgradle.server"
+            id = "dev.ein.spigotgradle"
             displayName = "Setup a spigot server for development"
             description = "Automatically builds the spigot jar using the spigot BuildTool, sets up a spigot server in /server and puts the plugins in the correct place"
             implementationClass = "dev.ein.spigotgradle.server.SpigotServerPlugin"
+            tags = listOf("spigot", "minecraft", "server", "plugin")
         }
     }
 }
@@ -87,7 +80,6 @@ mavenPublishing {
     signAllPublications()
 
     pom {
-        val projectUrl = "github.com/$authorName/$projectName"
         name.set(projectName)
         description.set("a gradle plugin to automate spigot plugin development")
         inceptionYear.set("2024")
@@ -110,5 +102,13 @@ mavenPublishing {
             connection.set("scm:git:git://$projectUrl.git")
             developerConnection.set("scm:git:ssh://$projectUrl.git")
         }
+    }
+}
+
+mkdocs {
+    extras.put("version", version.toString())
+    publish {
+        docPath = version.toString()
+        rootRedirect = true
     }
 }
