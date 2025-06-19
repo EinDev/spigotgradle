@@ -1,80 +1,41 @@
-package dev.ein.spigotgradle.server.task;
+package dev.ein.spigotgradle.server.task
 
-import dev.ein.spigotgradle.SpigotExtension;
-import org.gradle.api.DefaultTask;
-import org.gradle.api.file.DirectoryProperty;
-import org.gradle.api.file.RegularFileProperty;
-import org.gradle.api.provider.Property;
-import org.gradle.api.tasks.Input;
-import org.gradle.api.tasks.InputFile;
-import org.gradle.api.tasks.OutputDirectory;
-import org.gradle.api.tasks.TaskAction;
-import org.jetbrains.annotations.NotNull;
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.model.ObjectFactory
+import org.gradle.api.tasks.Exec
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.TaskAction
+import org.gradle.process.ExecSpec
+import javax.inject.Inject
 
-import java.io.OutputStream;
-
-public class SpigotBuildToolBuild extends DefaultTask {
-
-    @Input
-    public Property<String> version = getProject().getObjects().property(String.class).convention(SpigotExtension.get(getProject()).version);
-    public Property<Boolean> quiet = getProject().getObjects().property(Boolean.class).convention(SpigotExtension.get(getProject()).buildTool.quiet);
+abstract class SpigotBuildToolBuild @Inject constructor(objects: ObjectFactory) : Exec(), ServerJarProvider {
     @InputFile
-    public RegularFileProperty buildToolJar = getProject().getObjects().fileProperty().convention(SpigotExtension.get(getProject()).buildTool.buildToolJar);
+    val buildToolJar: RegularFileProperty = objects.fileProperty()
 
     @OutputDirectory
-    public DirectoryProperty buildToolBuild = getProject().getObjects().directoryProperty().convention(SpigotExtension.get(getProject()).buildTool.build);
+    val workingDir: DirectoryProperty = objects.directoryProperty()
 
-    public SpigotBuildToolBuild() {
-        setDescription("Uses the spigot BuildTool to build a server jar");
-        setGroup("spigot flavor spigot");
+    init {
+        group = "spigot flavor spigot"
+        description = "Uses the spigot BuildTool to build a server jar"
     }
 
     @TaskAction
-    public void execute() {
-        getProject().exec(e -> {
-            e.workingDir(buildToolBuild);
-            e.commandLine("java", "-jar", buildToolJar.get().getAsFile().getPath(), "--rev", version.get());
-            if (quiet.get()) {
-                getLogger().warn("Spigot BuildTool output is silenced. Building may take a couple minutes just wait patiently...");
-                e.setStandardOutput(new OutputStream() {
-                    @Override
-                    public void write(int b) {
-
-                    }
-
-                    @Override
-                    public void write(@NotNull byte[] b) {
-
-                    }
-
-                    @Override
-                    public void write(@NotNull byte[] b, int off, int len) {
-
-                    }
-
-                    @Override
-                    public void flush() {
-
-                    }
-
-                    @Override
-                    public void close() {
-
-                    }
-                });
-            }
-        }).assertNormalExitValue().rethrowFailure();
-    }
-
-    public Property<String> getVersion() {
-        return version;
-    }
-
-    public RegularFileProperty getBuildToolJar() {
-        return buildToolJar;
-    }
-
-    public DirectoryProperty getBuildToolBuild() {
-        return buildToolBuild;
+    fun execute() {
+        serverJar.set(workingDir.map { it.file("server.jar") })
+        val serverJarName = serverJar.map { it.asFile.name }
+        val serverJarFolder = serverJar.map { it.asFile.parent }
+        project.exec { e: ExecSpec ->
+            e.workingDir(workingDir)
+            e.commandLine(
+                "java",
+                "-jar", buildToolJar.map { it.asFile.path },
+                "--rev", version.get(),
+                "--final-name", serverJarName,
+                "--output-dir", serverJarFolder
+            )
+        }.assertNormalExitValue().rethrowFailure()
     }
 }

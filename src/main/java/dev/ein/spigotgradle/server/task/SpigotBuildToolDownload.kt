@@ -1,50 +1,42 @@
-package dev.ein.spigotgradle.server.task;
+package dev.ein.spigotgradle.server.task
 
-import dev.ein.spigotgradle.SpigotExtension;
-import org.gradle.api.DefaultTask;
-import org.gradle.api.GradleException;
-import org.gradle.api.file.RegularFileProperty;
-import org.gradle.api.provider.Property;
-import org.gradle.api.tasks.Input;
-import org.gradle.api.tasks.OutputFile;
-import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.TaskAction
+import java.io.IOException
+import java.net.URL
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import javax.inject.Inject
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-
-public class SpigotBuildToolDownload extends DefaultTask {
-
+abstract class SpigotBuildToolDownload @Inject constructor(objects: ObjectFactory) : DefaultTask() {
     @Input
-    public Property<String> buildToolUrl = getProject().getObjects().property(String.class).convention("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar");
+    val buildToolUrl: Property<String> = objects.property(
+        String::class.java
+    ).convention("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar")
 
     @OutputFile
-    public RegularFileProperty buildToolJar = getProject().getObjects().fileProperty().convention(SpigotExtension.get(getProject()).buildTool.buildToolJar);
+    val buildToolJar: RegularFileProperty = objects.fileProperty()
 
-    public SpigotBuildToolDownload() {
-        setDescription("Downloads the spigot BuildTool");
-        setGroup("spigot flavor spigot");
+    init {
+        group = "spigot flavor spigot"
+        description = "Downloads the spigot BuildTool"
     }
 
     @TaskAction
-    public void execute() {
+    fun execute() {
         try {
-            URL website = new URL(buildToolUrl.get());
-            try (InputStream in = website.openStream()) {
-                Files.copy(in, buildToolJar.get().getAsFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
+            val website = URL(buildToolUrl.get())
+            website.openStream().use { `in` ->
+                Files.copy(`in`, buildToolJar.get().asFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
             }
-        } catch (IOException e) {
-            throw new GradleException("IOException when downloading BuildTool jar", e);
+        } catch (e: IOException) {
+            throw GradleException("IOException when downloading BuildTool jar", e)
         }
-    }
-
-    public Property<String> getBuildToolUrl() {
-        return buildToolUrl;
-    }
-
-    public RegularFileProperty getBuildToolJar() {
-        return buildToolJar;
     }
 }

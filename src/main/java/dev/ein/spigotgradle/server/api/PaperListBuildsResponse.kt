@@ -1,31 +1,30 @@
-package dev.ein.spigotgradle.server.api;
+package dev.ein.spigotgradle.server.api
 
-import org.gradle.internal.impldep.com.google.gson.annotations.SerializedName;
+import org.gradle.internal.impldep.com.google.gson.annotations.SerializedName
 
-import java.util.List;
+class PaperListBuildsResponse {
+    var projectId: String? = null
+    var projectName: String? = null
+    var version: String? = null
+    var builds: List<BuildInfo>? = null
 
-public class PaperListBuildsResponse {
-    public String projectId;
-    public String projectName;
-    public String version;
-    public List<BuildInfo> builds;
-
-    public static class BuildInfo {
-        public int build;
-        public String time;
-        public String channel;
-        public boolean promoted;
-        public Downloads downloads;
+    class BuildInfo {
+        var build: Int = 0
+        var time: String? = null
+        var channel: String? = null
+        var promoted: Boolean = false
+        var downloads: Downloads? = null
     }
 
-    public static class Downloads {
-        public DownloadEntry application;
+    class Downloads {
+        var application: DownloadEntry? = null
+
         @SerializedName("mojang-mappings")
-        public DownloadEntry mojangMappings;
+        var mojangMappings: DownloadEntry? = null
     }
 
-    public static class DownloadEntry {
-        public String name;
-        public String sha256;
+    class DownloadEntry {
+        var name: String? = null
+        var sha256: String? = null
     }
 }
