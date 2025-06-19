@@ -52,7 +52,7 @@ gradlePlugin {
             displayName = "Setup a spigot server for development"
             description = "Automatically builds the spigot jar using the spigot BuildTool, sets up a spigot server in /server and puts the plugins in the correct place"
             implementationClass = "dev.ein.spigotgradle.server.SpigotServerPlugin"
-            tags = listOf("spigot", "minecraft", "server", "plugin")
+            tags = listOf("spigot", "minecraft", "server")
         }
     }
 }
